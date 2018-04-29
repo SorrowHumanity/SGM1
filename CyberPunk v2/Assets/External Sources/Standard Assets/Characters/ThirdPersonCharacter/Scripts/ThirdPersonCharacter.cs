@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.Networking;
-using UnityEngine.Assertions;
 
 namespace UnityStandardAssets.Characters.ThirdPerson
 {
@@ -17,7 +16,6 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		[SerializeField] float m_MoveSpeedMultiplier = 1f;
 		[SerializeField] float m_AnimSpeedMultiplier = 1f;
 		[SerializeField] float m_GroundCheckDistance = 0.1f;
-		[SerializeField] GameObject playerStar;
 
 		Rigidbody m_Rigidbody;
 		Animator m_Animator;
@@ -35,8 +33,6 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
 		void Start()
 		{
-			Assert.IsNotNull (playerStar);
-
 			m_Animator = GetComponent<Animator>();
 			m_Rigidbody = GetComponent<Rigidbody>();
 			m_Capsule = GetComponent<CapsuleCollider>();
@@ -47,10 +43,6 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			m_OrigGroundCheckDistance = m_GroundCheckDistance;
 		}
 
-		public override void OnStartLocalPlayer ()
-		{
-			playerStar.SetActive (true);
-		}
 
 		public void Move(Vector3 move, bool crouch, bool jump)
 		{
