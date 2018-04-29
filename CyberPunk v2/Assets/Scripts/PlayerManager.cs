@@ -33,5 +33,5 @@ public class PlayerManager : NetworkBehaviour {
             sceneCamera.gameObject.SetActive(false);
         }
     }
-
+ 
 }
