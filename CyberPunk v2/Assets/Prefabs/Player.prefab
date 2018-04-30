@@ -1315,6 +1315,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce7a80d520cacc042b5fe14f373d8173, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bulletSpawnPoint: {fileID: 4289989608269120}
+  bulletPrefab: {fileID: 1586678740998844, guid: 51bfa324139b3154bae5f7fcb7f65fa8,
+    type: 2}
   m_MovingTurnSpeed: 360
   m_StationaryTurnSpeed: 180
   m_JumpPower: 6
