@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.Assertions;
 
 namespace UnityStandardAssets.Characters.ThirdPerson
 {
@@ -8,6 +9,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 	[RequireComponent(typeof(Animator))]
 	public class ThirdPersonCharacter : NetworkBehaviour
 	{
+		[SerializeField] private Transform bulletSpawnPoint;
+		[SerializeField] private GameObject bulletPrefab;
 		[SerializeField] float m_MovingTurnSpeed = 360;
 		[SerializeField] float m_StationaryTurnSpeed = 180;
 		[SerializeField] float m_JumpPower = 12f;
@@ -30,9 +33,15 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		CapsuleCollider m_Capsule;
 		bool m_Crouching;
 
+		public override void OnStartLocalPlayer() {
+			tag = "Player";
+		}
 
 		void Start()
 		{
+			Assert.IsNotNull (bulletPrefab);
+			Assert.IsNotNull (bulletSpawnPoint);
+
 			m_Animator = GetComponent<Animator>();
 			m_Rigidbody = GetComponent<Rigidbody>();
 			m_Capsule = GetComponent<CapsuleCollider>();
@@ -41,6 +50,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
 			m_Rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
 			m_OrigGroundCheckDistance = m_GroundCheckDistance;
+
 		}
 
 
@@ -118,6 +128,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
 		void UpdateAnimator(Vector3 move)
 		{
+			Fire ();
 			// update the animator parameters
 			m_Animator.SetFloat("Forward", m_ForwardAmount, 0.1f, Time.deltaTime);
 			m_Animator.SetFloat("Turn", m_TurnAmount, 0.1f, Time.deltaTime);
@@ -221,6 +232,17 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 				m_GroundNormal = Vector3.up;
 				m_Animator.applyRootMotion = false;
 			}
+		}
+
+		void Fire(){
+			if (Input.GetMouseButtonDown (0)) {
+				Debug.Log ("Fire");
+				//anim.SetTrigger("Attack");
+				GameObject fireball = Instantiate (bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation) as GameObject;
+				fireball.GetComponent<Rigidbody> ().velocity = fireball.transform.forward * 4;
+				Destroy (fireball, 3.5f);
+			}
+
 		}
 	}
 }
