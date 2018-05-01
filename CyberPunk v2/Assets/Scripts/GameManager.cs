@@ -1,32 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class GameManager : MonoBehaviour
 {
-
-    public GameObject player;
     public List<GameObject> ground;
     private int index;
 
-    List<int> targetList;
-
-    void Start()
+    private void Start()
     {
-
-        Renderer rend = GetComponent<Renderer>();
-
         ground = new List<GameObject>(GameObject.FindGameObjectsWithTag("Ground"));
 
-        targetList = new List<int>();
-
-         StartCoroutine(CubeDestroyer());
-        
+        StartCoroutine(CubeDestroyer());
     }
 
-    IEnumerator CubeDestroyer()
+    private IEnumerator CubeDestroyer()
     {
-
         index = Random.Range(0, ground.Count);
 
         ground[index].GetComponent<Renderer>().material.color = Color.red;
@@ -36,8 +26,7 @@ public class GameManager : MonoBehaviour
         Destroy(ground[index]);
 
         ground.RemoveAt(index);
-       
+
         if (ground.Count > 0) StartCoroutine(CubeDestroyer());
-        
     }
 }
